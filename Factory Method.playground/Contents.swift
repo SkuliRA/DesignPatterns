@@ -41,37 +41,34 @@ class Squarts: Exercise {
 
 //-----------------------------ФАБРИКА-------------------------------------------------
 
-enum Exercises {
-    case jumping, squarts
+protocol Factory {
+    func factoryMethod() -> Exercise
 }
 
-class FactoryExercises {
-    // фабричный метод возвращает объекты требуемых классов
-    func factoryMethod(_ exercise: Exercises) -> Exercise {
-        switch exercise {
-        case .jumping:
-            return Jumping()
-        case .squarts:
-            return Squarts()
-        }
+// конкретные фабрики
+
+class FactoryJumping: Factory {
+    func factoryMethod() -> Exercise {
+        return Jumping()
+    }
+}
+
+class FactorySquarts: Factory {
+    func factoryMethod() -> Exercise {
+        return Squarts()
     }
 }
 
 //-----------------------------КЛИЕНТ---------------------------------------------------
 
-var arrayExercises = [Exercise]()
-
-let factory = FactoryExercises()
-
-// используя фабричный метод создадим пару разных объектов
-let jumping = factory.factoryMethod(.jumping)
-let squarts = factory.factoryMethod(.squarts)
-
-arrayExercises.append(jumping)
-arrayExercises.append(squarts)
-
-// выполним упражнения из массива
-for obj in arrayExercises {
-    obj.start()
-    obj.stop()
+func performExercise(_ concretFactory: Factory) {
+    let exercise = concretFactory.factoryMethod()
+    exercise.start()
+    exercise.stop()
 }
+
+let factoryJumping = FactoryJumping()
+performExercise(factoryJumping)
+
+let factorySquart = FactorySquarts()
+performExercise(factorySquart)
