@@ -7,7 +7,7 @@ protocol Prototype {
     init(_ prototype: Self)
 }
 
-// добавим реализацию метода clone() к пртоколу
+// добавим реализацию метода clone() к протоколу
 extension Prototype {
     func clone() -> Self {
         return type(of: self).init(self)
